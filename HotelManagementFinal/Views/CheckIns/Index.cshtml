@@ -1,0 +1,63 @@
+﻿@model IEnumerable<HotelManagementFinal.Models.CheckIn>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Room.RoomName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoomType.RoomTypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ChekInDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CheckOutDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Staying)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Room.RoomName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoomType.RoomTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ChekInDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CheckOutDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Staying)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CheckInId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CheckInId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CheckInId })
+        </td>
+    </tr>
+}
+
+</table>

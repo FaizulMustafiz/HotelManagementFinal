@@ -1,0 +1,66 @@
+﻿@model HotelManagementFinal.Models.Customer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerNid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerNid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerRegistrationNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerRegistrationNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerPhoneNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerPhoneNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerPassportNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerPassportNo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CustomerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

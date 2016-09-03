@@ -1,0 +1,82 @@
+﻿@model HotelManagementFinal.Models.CheckIn
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+
+@if (TempData["already"] != null)
+{
+    <div class="alert alert-danger">@TempData["already"]</div>
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>CheckIn</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ChekInDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ChekInDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ChekInDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CheckOutDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CheckOutDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CheckOutDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerId, "Customer Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CustomerId", null, "--Select Customer Name--",htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoomTypeId, "Room Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RoomTypeId", null, "--Select Room Type--",htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RoomTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoomId, "Rooms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RoomId", null, "--Select Room--",htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
