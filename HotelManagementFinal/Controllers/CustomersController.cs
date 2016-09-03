@@ -74,7 +74,7 @@ namespace HotelManagementFinal.Controllers
         {
             int id = db.Customers.Count(c => c.CustomerName == customer.CustomerName) + 1;
 
-            string registrationId = "Customer-";
+            string registrationId = customer.CustomerName + "_";
 
             string addZero = "";
             int len = 3 - id.ToString().Length;
@@ -82,7 +82,7 @@ namespace HotelManagementFinal.Controllers
             {
                 addZero = "0" + addZero;
             }
-            return registrationId + addZero + id;
+            return registrationId + addZero + id + 1;
         }
 
         // GET: Customers/Edit/5
