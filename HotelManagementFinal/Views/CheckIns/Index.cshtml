@@ -29,7 +29,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Staying)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -52,6 +54,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Staying)
         </td>
+        <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CheckInId }) |
             @Html.ActionLink("Details", "Details", new { id=item.CheckInId }) |

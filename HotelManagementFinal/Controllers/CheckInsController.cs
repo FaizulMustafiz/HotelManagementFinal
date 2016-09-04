@@ -79,7 +79,8 @@ namespace HotelManagementFinal.Controllers
                     db.CheckIns.Add(checkIn);
                     ViewBag.TotalPrice = totalPrice;
                     db.SaveChanges();
-                    TempData["success"] = "This "+ aRoom.RoomName+" is Checked in by "+aCustomer.CustomerName+" from " + checkIn.ChekInDate.Date+ " to "+checkIn.CheckOutDate.Date;
+                    TempData["success"] = "This '"+ aRoom.RoomName+"' is Checked in by '"+aCustomer.CustomerName+"' from '" + checkIn.ChekInDate.ToShortDateString()+ "' to '"+checkIn.CheckOutDate.ToShortDateString()+ "' for "+checkIn.Staying+" days "+"" +
+                                          " & Total Price of staying is: " + checkIn.TotalPrice+" taka";
                     return RedirectToAction("Create");
                 }
                 

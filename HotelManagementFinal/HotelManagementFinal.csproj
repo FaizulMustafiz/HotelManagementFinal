@@ -307,7 +307,6 @@
     <Content Include="Views\Shared\_CustomerInfoLoad.cshtml" />
     <Content Include="Views\Shared\_FillteredRooms.cshtml" />
     <Content Include="Views\Shared\_RoomInfoLoad.cshtml" />
-    <Content Include="Views\CheckIns\CheckinDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
