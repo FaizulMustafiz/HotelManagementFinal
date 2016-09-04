@@ -66,14 +66,14 @@ namespace HotelManagementFinal.Controllers
                     Customer aCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == checkIn.CustomerId);
                     Room aRoom = db.Rooms.FirstOrDefault(c => c.RoomId == checkIn.RoomId);
 
-                    DateTime checkInDate = checkIn.ChekInDate;
-                    DateTime checkOutDate = checkIn.CheckOutDate;
+                    DateTime checkInDate = checkIn.ChekInDate.Date;
+                    DateTime checkOutDate = checkIn.CheckOutDate.Date;
                     TimeSpan staying = checkOutDate - checkInDate;
-                    checkIn.Staying = Convert.ToString(staying);
+                    checkIn.Staying = Convert.ToString(staying.TotalDays);
                     aRoom.RoomStatus = true;
                     db.CheckIns.Add(checkIn);
                     db.SaveChanges();
-                    TempData["success"] = "This "+ aRoom.RoomName+"is Checked in by "+aCustomer.CustomerName+" from " + checkIn.ChekInDate+ " to "+checkIn.CheckOutDate;
+                    TempData["success"] = "This "+ aRoom.RoomName+" is Checked in by "+aCustomer.CustomerName+" from " + checkIn.ChekInDate.Date+ " to "+checkIn.CheckOutDate.Date;
                     return RedirectToAction("Create");
                 }
                 
@@ -156,6 +156,55 @@ namespace HotelManagementFinal.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        public PartialViewResult CustomerInfoLoad(int? customerId)
+        {
+            if (customerId != null)
+            {
+                Customer aCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == customerId);
+                ViewBag.RegId = aCustomer.CustomerRegistrationNo;
+                ViewBag.CustomerName = aCustomer.CustomerName;
+                ViewBag.Nid = aCustomer.CustomerNid;
+                ViewBag.Phone = aCustomer.CustomerPhoneNo;
+                ViewBag.Address = aCustomer.CustomerAddress;
+                ViewBag.Passport = aCustomer.CustomerPassportNo;
+
+                return PartialView("~/Views/Shared/_CustomerInfoLoad.cshtml");
+            }
+            else
+            {
+                return PartialView("~/Views/Shared/_CustomerInfoLoad.cshtml");
+            }
+        }
+
+
+        public PartialViewResult RoomInfoLoad(int? roomId)
+        {
+            if (roomId!= null)
+            {
+                Room aRoom = db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+                ViewBag.RoomName = aRoom.RoomName;
+                ViewBag.RoomType = aRoom.RoomType.RoomTypeName;
+                ViewBag.Price = aRoom.RoomPrice;
+                ViewBag.Description = aRoom.RoomDescription;
+                ViewBag.Status = aRoom.RoomStatus;
+
+                return PartialView("~/Views/Shared/_RoomInfoLoad.cshtml");
+            }
+            else
+            {
+                return PartialView("~/Views/Shared/_RoomInfoLoad.cshtml");
+            }
+        }
+
+        public ActionResult LoadRoom(int? roomTypeId)
+        {
+            var roomList = db.Rooms.Where(r => r.RoomTypeId == roomTypeId).ToList();
+            ViewBag.RoomId = new SelectList(roomList, "RoomId", "RoomName");
+            return PartialView("~/Views/Shared/_FillteredRooms.cshtml");
+        }
+
 
     }
 }

@@ -6,6 +6,11 @@
 
 <h2>Create</h2>
 
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
 @if (TempData["success"] != null)
 {
     <div class="alert alert-success">@TempData["success"]</div>
@@ -17,10 +22,10 @@
 }
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>CheckIn</h4>
         <hr />
@@ -44,24 +49,41 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CustomerId, "Customer Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CustomerId", null, "--Select Customer Name--",htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("CustomerId", null, "--Select Customer Name--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <div id="customerInfo" class="col-md-4">
+                @Html.Partial("~/Views/Shared/_CustomerInfoLoad.cshtml")
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.RoomTypeId, "Room Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("RoomTypeId", null, "--Select Room Type--",htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("RoomTypeId", null, "--Select Room Type--", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.RoomTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.RoomId, "Rooms", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("RoomId", null, "--Select Room--", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div>
+            @Html.Partial("~/Views/Shared/_FillteredRooms.cshtml")
+        </div>
+
         <div class="form-group">
-            @Html.LabelFor(model => model.RoomId, "Rooms", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("RoomId", null, "--Select Room--",htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+            <div class="col-md-2"></div>
+            <div id="roomInfo" class="col-md-4">
+                @Html.Partial("~/Views/Shared/_RoomInfoLoad.cshtml")
             </div>
         </div>
 
@@ -72,6 +94,61 @@
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    function FillData(id) {
+        $('#RoomId').load('@Url.Action("LoadRoom")', { roomTypeId: id });
+    }
+
+
+    function FillCustomerInfo(id) {
+        $('#customerInfo').load('@Url.Action("CustomerInfoLoad")', { customerId: id });
+    }
+
+    function FillCustomerInfo(id) {
+        $('#roomInfo').load('@Url.Action("RoomInfoLoad")', { roomId: id });
+    }
+
+
+    $(function () {
+        $('#customerInfo').hide();
+        $('#roomInfo').hide();
+
+        $('#RoomTypeId').change(function () {
+            var id = $('#RoomTypeId').val();
+            FillData(id);
+        });
+
+        $('#CustomerId').change(function () {
+            var id = $('#CustomerId').val();
+            if (this.change) {
+                $('#customerInfo').hide();
+            } else {
+                $('#customerInfo').show();
+            }
+            //if (this.change != id) {
+            //    $('#customerInfo').show();
+            //} else {
+            //    $('#customerInfo').hide();
+            //}
+            FillCustomerInfo(id);
+        });
+
+        $('#RoomId').change(function () {
+            var id = $('#RoomId').val();
+            if (this.change != id) {
+                $('#roomInfo').show();
+            } else {
+                $('#roomInfo').hide();
+            }
+            FillCustomerInfo(id);
+        });
+    });
+</script>
+
+
+
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")
