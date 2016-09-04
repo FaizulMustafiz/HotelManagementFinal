@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -141,5 +142,33 @@ namespace HotelManagementFinal.Controllers
         {
             return Json(!db.Rooms.Any(x => x.RoomName == RoomName), JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult CheckOut()
+        {
+            ViewBag.RoomId = new SelectList(db.Rooms, "RoomId","RoomName");
+            return View();
+        }
+
+        public JsonResult CheckOutAll(bool decision)
+        {
+            var rooms = db.Rooms.Where(m => m.RoomStatus == true).ToList();
+            if (rooms.Count == 0)
+            {
+                return Json(false);
+            }
+            else
+            {
+                foreach (var room in rooms)
+                {
+                    room.RoomStatus = false;
+                    db.Rooms.AddOrUpdate(room);
+                    db.SaveChanges();
+                }
+                return Json(true);
+            }
+
+        }
+
     }
 }

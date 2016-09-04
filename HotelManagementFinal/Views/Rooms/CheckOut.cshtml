@@ -1,0 +1,72 @@
+﻿@using HotelManagementFinal.Models
+@model HotelManagementFinal.Models.Room
+
+@{
+    ViewBag.Title = "CheckOut";
+}
+
+<h2>CheckOut</h2>
+<hr/>
+<br/>
+<br/>
+<br/>
+<br/>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RoomId, "Rooms", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RoomId", null, "--Select Room--", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="button" value="Check Out" id="checkOut" class="btn btn-primary btn-lg"/>
+        <br/>
+        <label id="Message" style="color: green"></label>
+    </div>
+
+    <hr/>
+}
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("#checkOut").click(function () {
+
+            var decision = confirm("Are you sure to Check Out?");
+
+            if (decision == true) {
+
+                var jsonData = { decision: decision};
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("CheckOutAll", "Rooms")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(jsonData),
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == true) {
+
+                            $("#Message").text("Check Out Successffully !");
+                        }
+                        else {
+
+                            $("#Message").text("No rooms to Check Out!");
+                        }
+                    },
+                });
+
+            }
+            return false;
+
+        });
+    });
+
+</script>
