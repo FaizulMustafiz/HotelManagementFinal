@@ -1,4 +1,5 @@
-﻿@model HotelManagementFinal.Models.CheckIn
+﻿@using HotelManagementFinal.Models
+@model HotelManagementFinal.Models.CheckIn
 
 @{
     ViewBag.Title = "Create";
@@ -89,7 +90,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default"/>
             </div>
         </div>
     </div>
@@ -105,7 +106,7 @@
         $('#customerInfo').load('@Url.Action("CustomerInfoLoad")', { customerId: id });
     }
 
-    function FillCustomerInfo(id) {
+    function FillRoomInfo(id) {
         $('#roomInfo').load('@Url.Action("RoomInfoLoad")', { roomId: id });
     }
 
@@ -141,7 +142,7 @@
             } else {
                 $('#roomInfo').hide();
             }
-            FillCustomerInfo(id);
+            FillRoomInfo(id);
         });
     });
 </script>

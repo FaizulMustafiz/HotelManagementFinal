@@ -1,3 +1,5 @@
+using System.Web.Mvc;
+
 namespace HotelManagementFinal.Models
 {
     using System;
@@ -35,6 +37,8 @@ namespace HotelManagementFinal.Models
         [Display(Name = "Available Rooms")]
         [Required(ErrorMessage = "Please Select any Room")]
         public int RoomId { get; set; }
+
+        public decimal? TotalPrice { get; set; }
 
         public virtual Customer Customer { get; set; }
 

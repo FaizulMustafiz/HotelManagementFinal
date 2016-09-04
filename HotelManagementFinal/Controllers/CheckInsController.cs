@@ -50,7 +50,7 @@ namespace HotelManagementFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CheckInId,ChekInDate,CheckOutDate,Staying,CustomerId,RoomTypeId,RoomId")] CheckIn checkIn)
+        public ActionResult Create([Bind(Include = "CheckInId,ChekInDate,CheckOutDate,Staying,CustomerId,RoomTypeId,RoomId,TotalPrice")] CheckIn checkIn)
         {
             if (ModelState.IsValid)
             {
@@ -70,8 +70,14 @@ namespace HotelManagementFinal.Controllers
                     DateTime checkOutDate = checkIn.CheckOutDate.Date;
                     TimeSpan staying = checkOutDate - checkInDate;
                     checkIn.Staying = Convert.ToString(staying.TotalDays);
+                    var roomId = db.Rooms.FirstOrDefault(x => x.RoomId == checkIn.RoomId);
+                    decimal price = roomId.RoomPrice;
+                    decimal stayingConvert = Convert.ToDecimal(checkIn.Staying);
+                    decimal totalPrice = stayingConvert*price;
+                    checkIn.TotalPrice = totalPrice;
                     aRoom.RoomStatus = true;
                     db.CheckIns.Add(checkIn);
+                    ViewBag.TotalPrice = totalPrice;
                     db.SaveChanges();
                     TempData["success"] = "This "+ aRoom.RoomName+" is Checked in by "+aCustomer.CustomerName+" from " + checkIn.ChekInDate.Date+ " to "+checkIn.CheckOutDate.Date;
                     return RedirectToAction("Create");
@@ -108,7 +114,7 @@ namespace HotelManagementFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CheckInId,ChekInDate,CheckOutDate,Staying,CustomerId,RoomTypeId,RoomId")] CheckIn checkIn)
+        public ActionResult Edit([Bind(Include = "CheckInId,ChekInDate,CheckOutDate,Staying,CustomerId,RoomTypeId,RoomId,TotalPrice")] CheckIn checkIn)
         {
             if (ModelState.IsValid)
             {

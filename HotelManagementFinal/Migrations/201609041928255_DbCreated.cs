@@ -18,6 +18,7 @@ namespace HotelManagementFinal.Migrations
                         CustomerId = c.Int(nullable: false),
                         RoomTypeId = c.Int(nullable: false),
                         RoomId = c.Int(nullable: false),
+                        TotalPrice = c.Decimal(precision: 18, scale: 2),
                     })
                 .PrimaryKey(t => t.CheckInId)
                 .ForeignKey("dbo.Customer", t => t.CustomerId)

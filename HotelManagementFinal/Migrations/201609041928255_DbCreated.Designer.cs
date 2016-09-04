@@ -13,7 +13,7 @@ namespace HotelManagementFinal.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201609030003161_DbCreated"; }
+            get { return "201609041928255_DbCreated"; }
         }
         
         string IMigrationMetadata.Source
