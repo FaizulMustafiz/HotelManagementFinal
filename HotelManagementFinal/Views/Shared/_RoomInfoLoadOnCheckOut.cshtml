@@ -1,0 +1,98 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@using System.Web.Mvc.Html
+
+
+<div class="form-group">
+    <table class="table table-bordered">
+        <tr>
+            <td>
+                Room Name
+            </td>
+            <td>
+                @ViewBag.RoomName
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Room Type
+            </td>
+            <td>
+                @ViewBag.RoomType
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Room Descrciption
+            </td>
+            <td>
+                @ViewBag.Description
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Room Price
+            </td>
+            <td>
+                @ViewBag.Price
+            </td>
+        </tr>
+        @if (ViewBag.Status != null & ViewBag.Status != false)
+        {
+            <tr>
+                <td>
+                    Room Status
+                </td>
+                <td>
+                    <b>Booked</b>
+                </td>
+            </tr>
+            <tr>
+                <td>Customer Name</td>
+                <td>@ViewBag.CustomerName</td>
+            </tr>
+            <tr>
+                <td>Customer Registation Id</td>
+                <td>@ViewBag.CustomerRegId</td>
+            </tr>
+            <tr>
+                <td>Customer Phone No.</td>
+                <td>@ViewBag.CustomerPhone</td>
+            </tr>
+            <tr>
+                <td>Customer Nid</td>
+                <td>@ViewBag.CustomerNid</td>
+            </tr>
+
+        }
+        else
+        {
+            <tr>
+                <td>
+                    Room Status
+                </td>
+                <td>
+                    <b>Available</b>
+                </td>
+            </tr>
+            <tr>
+                <td>Customer Name</td>
+                <td>No Info Available</td>
+            </tr>
+            <tr>
+                <td>Customer Registation Id</td>
+                <td>No Info Available</td>
+            </tr>
+            <tr>
+                <td>Customer Phone No.</td>
+                <td>No Info Available</td>
+            </tr>
+            <tr>
+                <td>Customer Nid</td>
+                <td>No Info Available</td>
+            </tr>
+
+        }
+
+    </table>
+</div>
+
