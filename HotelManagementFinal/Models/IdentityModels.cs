@@ -26,6 +26,7 @@ namespace HotelManagementFinal.Models
         }
 
         public static ApplicationDbContext Create()
+
         {
             return new ApplicationDbContext();
         }

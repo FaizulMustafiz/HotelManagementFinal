@@ -5,45 +5,74 @@
     ViewBag.Title = "CheckOut";
 }
 
-<h2>CheckOut</h2>
-<hr/>
-<br/>
-<br/>
-<br/>
-<br/>
+<h2>Check Out</h2>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.RoomId, "Rooms", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("RoomId", null, "--Select Room--", htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Check Out</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.RoomId, "Rooms", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RoomId", null, "--Select Room--", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RoomId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <div id="roomInfo" class="col-md-4">
+                @Html.Partial("~/Views/Shared/_RoomInfoLoadOnCheckOut.cshtml")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Check Out" id="checkOut" class="btn btn-primary btn-lg" />
+                <br />
+                <label id="Message" style="color: green"></label>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <input type="button" value="Check Out" id="checkOut" class="btn btn-primary btn-lg"/>
-        <br/>
-        <label id="Message" style="color: green"></label>
-    </div>
-
-    <hr/>
 }
 
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 <script>
 
+    function FillRoomInfo(id) {
+        $('#roomInfo').load('@Url.Action("RoomInfoLoadOnCheckOut")', { roomId: id });
+    }
+
+    $(function () {
+        $('#roomInfo').hide();
+
+        $('#RoomId').change(function () {
+            var id = $('#RoomId').val();
+            if (this.change != id) {
+                $('#roomInfo').show();
+            } else {
+                $('#roomInfo').hide();
+            }
+            FillRoomInfo(id);
+        });
+    });
+
     $(document).ready(function () {
         $("#checkOut").click(function () {
 
             var decision = confirm("Are you sure to Check Out?");
+            //$('#RoomId').change(function () {
+                var roomId = $('#RoomId').val();
+            //});
 
-            if (decision == true) {
+            if (decision == true && roomId!=null) {
 
-                var jsonData = { decision: decision};
+                var jsonData = { decision: decision, roomId: roomId };
                 $.ajax({
                     type: "POST",
                     url: '@Url.Action("CheckOutAll", "Rooms")',

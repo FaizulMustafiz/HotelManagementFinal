@@ -146,13 +146,33 @@ namespace HotelManagementFinal.Controllers
 
         public ActionResult CheckOut()
         {
-            ViewBag.RoomId = new SelectList(db.Rooms, "RoomId","RoomName");
+            ViewBag.RoomId = new SelectList(db.Rooms, "RoomId", "RoomName");
             return View();
         }
 
-        public JsonResult CheckOutAll(bool decision)
+        //public JsonResult CheckOutAll(bool decision)
+        //{
+        //    var rooms = db.Rooms.Where(m => m.RoomStatus == true).ToList();
+        //    if (rooms.Count == 0)
+        //    {
+        //        return Json(false);
+        //    }
+        //    else
+        //    {
+        //        foreach (var room in rooms)
+        //        {
+        //            room.RoomStatus = false;
+        //            db.Rooms.AddOrUpdate(room);
+        //            db.SaveChanges();
+        //        }
+        //        return Json(true);
+        //    }
+
+        //}
+
+        public JsonResult CheckOutAll(bool decision, int? roomId)
         {
-            var rooms = db.Rooms.Where(m => m.RoomStatus == true).ToList();
+            var rooms = db.Rooms.Where(m => m.RoomStatus == true && m.RoomId == roomId).ToList();
             if (rooms.Count == 0)
             {
                 return Json(false);
@@ -168,6 +188,33 @@ namespace HotelManagementFinal.Controllers
                 return Json(true);
             }
 
+        }
+
+
+        public PartialViewResult RoomInfoLoadOnCheckOut(int? roomId)
+        {
+            if (roomId != null)
+            {
+                Room aRoom = db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+                CheckIn aCheckIn = db.CheckIns.FirstOrDefault(r => r.Room.RoomId == roomId);
+
+                ViewBag.RoomName = aRoom.RoomName;
+                ViewBag.RoomType = aRoom.RoomType.RoomTypeName;
+                ViewBag.Price = aRoom.RoomPrice;
+                ViewBag.Description = aRoom.RoomDescription;
+                ViewBag.Status = aRoom.RoomStatus;
+
+                ViewBag.CustomerName = aCheckIn.Customer.CustomerName;
+                ViewBag.CustomerRegId = aCheckIn.Customer.CustomerRegistrationNo;
+                ViewBag.CustomerPhone = aCheckIn.Customer.CustomerPhoneNo;
+                ViewBag.CustomerNid = aCheckIn.Customer.CustomerNid;
+
+                return PartialView("~/Views/Shared/_RoomInfoLoadOnCheckOut.cshtml");
+            }
+            else
+            {
+                return PartialView("~/Views/Shared/_RoomInfoLoadOnCheckOut.cshtml");
+            }
         }
 
     }
