@@ -196,7 +196,7 @@ namespace HotelManagementFinal.Controllers
             if (roomId != null)
             {
                 Room aRoom = db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
-                CheckIn aCheckIn = db.CheckIns.FirstOrDefault(r => r.Room.RoomId == roomId);
+                var aCheckIn = db.CheckIns.Where(r => r.Room.RoomId == roomId).OrderByDescending(m=>m.CheckInId).FirstOrDefault();
 
                 ViewBag.RoomName = aRoom.RoomName;
                 ViewBag.RoomType = aRoom.RoomType.RoomTypeName;
@@ -208,6 +208,10 @@ namespace HotelManagementFinal.Controllers
                 ViewBag.CustomerRegId = aCheckIn.Customer.CustomerRegistrationNo;
                 ViewBag.CustomerPhone = aCheckIn.Customer.CustomerPhoneNo;
                 ViewBag.CustomerNid = aCheckIn.Customer.CustomerNid;
+                ViewBag.CheckIn = aCheckIn.ChekInDate;
+                ViewBag.CheckOut = aCheckIn.CheckOutDate;
+                ViewBag.Stayed = aCheckIn.Staying;
+                ViewBag.TotalPrice = aCheckIn.TotalPrice;
 
                 return PartialView("~/Views/Shared/_RoomInfoLoadOnCheckOut.cshtml");
             }
