@@ -207,15 +207,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201609041928255_DbCreated.cs" />
-    <Compile Include="Migrations\201609041928255_DbCreated.Designer.cs">
-      <DependentUpon>201609041928255_DbCreated.cs</DependentUpon>
+    <Compile Include="Migrations\201609241248597_DbCreated.cs" />
+    <Compile Include="Migrations\201609241248597_DbCreated.Designer.cs">
+      <DependentUpon>201609241248597_DbCreated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CheckIn.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\HotelManagementSystemContext.cs" />
+    <Compile Include="Models\IdentificationType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Room.cs" />
@@ -322,8 +323,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609041928255_DbCreated.resx">
-      <DependentUpon>201609041928255_DbCreated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609241248597_DbCreated.resx">
+      <DependentUpon>201609241248597_DbCreated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

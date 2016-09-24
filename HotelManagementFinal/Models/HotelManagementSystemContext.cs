@@ -12,6 +12,7 @@ namespace HotelManagementFinal.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<RoomType> RoomTypes { get; set; }
+        public virtual DbSet<IdentificationType> IdentificationTypes { get; set; }
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -38,6 +39,11 @@ namespace HotelManagementFinal.Models
             modelBuilder.Entity<RoomType>()
                 .HasMany(e => e.Rooms)
                 .WithRequired(e => e.RoomType)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<IdentificationType>()
+                .HasMany(e => e.Customers)
+                .WithRequired(e => e.IdentificationType)
                 .WillCascadeOnDelete(false);
         }
     }

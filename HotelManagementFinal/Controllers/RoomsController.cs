@@ -208,6 +208,7 @@ namespace HotelManagementFinal.Controllers
                 ViewBag.CustomerRegId = aCheckIn.Customer.CustomerRegistrationNo;
                 ViewBag.CustomerPhone = aCheckIn.Customer.CustomerPhoneNo;
                 ViewBag.CustomerNid = aCheckIn.Customer.CustomerNid;
+                ViewBag.CutomerPassport = aCheckIn.Customer.CustomerPassportNo;
                 ViewBag.CheckIn = aCheckIn.ChekInDate;
                 ViewBag.CheckOut = aCheckIn.CheckOutDate;
                 ViewBag.Stayed = aCheckIn.Staying;

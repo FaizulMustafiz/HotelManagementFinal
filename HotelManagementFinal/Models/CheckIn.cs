@@ -37,8 +37,12 @@ namespace HotelManagementFinal.Models
         [Display(Name = "Available Rooms")]
         [Required(ErrorMessage = "Please Select any Room")]
         public int RoomId { get; set; }
-
+        [Display(Name = "Total Price")]
         public decimal? TotalPrice { get; set; }
+        [Display(Name = "Paid Ammount")]
+        public decimal? Paying { get; set; }
+        [Display(Name = ("Remaining Price"))]
+        public decimal? RemainigPrice { get; set; }
 
         public virtual Customer Customer { get; set; }
 

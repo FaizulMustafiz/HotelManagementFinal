@@ -50,7 +50,7 @@ namespace HotelManagementFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CheckInId,ChekInDate,CheckOutDate,Staying,CustomerId,RoomTypeId,RoomId,TotalPrice")] CheckIn checkIn)
+        public ActionResult Create([Bind(Include = "CheckInId,ChekInDate,CheckOutDate,Staying,CustomerId,RoomTypeId,RoomId,TotalPrice,Paying,RemainigPrice")] CheckIn checkIn)
         {
             if (ModelState.IsValid)
             {
@@ -73,17 +73,34 @@ namespace HotelManagementFinal.Controllers
                     var roomId = db.Rooms.FirstOrDefault(x => x.RoomId == checkIn.RoomId);
                     decimal price = roomId.RoomPrice;
                     decimal stayingConvert = Convert.ToDecimal(checkIn.Staying);
-                    decimal totalPrice = stayingConvert*price;
+                    decimal totalPrice = stayingConvert * price;
                     checkIn.TotalPrice = totalPrice;
-                    aRoom.RoomStatus = true;
-                    db.CheckIns.Add(checkIn);
+                    TempData["TP"] = totalPrice;
                     ViewBag.TotalPrice = totalPrice;
+                    decimal? paying = checkIn.Paying;
+                    decimal? remainingPrice = totalPrice - paying;
+                    TempData["RP"] = remainingPrice;
+                    ViewBag.RemainingPrice = remainingPrice;
+                    aRoom.RoomStatus = true;
+                    if (checkIn.RemainigPrice == null)
+                    {
+                        checkIn.RemainigPrice = checkIn.TotalPrice;
+                    }
+                    if (paying != null)
+                    {
+                        checkIn.RemainigPrice = remainingPrice;
+                    }
+                    else
+                    {
+                        checkIn.RemainigPrice = checkIn.TotalPrice;
+                    }
+                    db.CheckIns.Add(checkIn);
                     db.SaveChanges();
-                    TempData["success"] = "This '"+ aRoom.RoomName+"' is Checked in by '"+aCustomer.CustomerName+"' from '" + checkIn.ChekInDate.ToShortDateString()+ "' to '"+checkIn.CheckOutDate.ToShortDateString()+ "' for "+checkIn.Staying+" days "+"" +
-                                          " & Total Price of staying is: " + checkIn.TotalPrice+" taka";
+                    TempData["success"] = "This '" + aRoom.RoomName + "' is Checked in by '" + aCustomer.CustomerName + "' from '" + checkIn.ChekInDate.ToShortDateString() + "' to '" + checkIn.CheckOutDate.ToShortDateString() + "' for " + checkIn.Staying + " days. " + "" +
+                                          " Total Price of staying is: " + checkIn.TotalPrice + " taka, Paid Ammount: "+checkIn.Paying+" taka, Due Ammount: " +checkIn.RemainigPrice+ " taka";
                     return RedirectToAction("Create");
                 }
-                
+
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", checkIn.CustomerId);
@@ -188,7 +205,7 @@ namespace HotelManagementFinal.Controllers
 
         public PartialViewResult RoomInfoLoad(int? roomId)
         {
-            if (roomId!= null)
+            if (roomId != null)
             {
                 Room aRoom = db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
                 ViewBag.RoomName = aRoom.RoomName;

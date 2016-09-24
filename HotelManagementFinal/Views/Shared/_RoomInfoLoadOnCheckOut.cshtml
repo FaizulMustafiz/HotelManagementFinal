@@ -58,10 +58,21 @@
                 <td>Customer Phone No.</td>
                 <td>@ViewBag.CustomerPhone</td>
             </tr>
-            <tr>
-                <td>Customer Nid</td>
-                <td>@ViewBag.CustomerNid</td>
-            </tr>
+            if (ViewBag.CustomerNid != null)
+            {
+                <tr>
+                    <td>Customer Nid</td>
+                    <td>@ViewBag.CustomerNid</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>Customer Passport</td>
+                    <td>@ViewBag.CutomerPassport</td>
+                </tr>
+            }
+
             <tr>
                 <td>Checked In Date</td>
                 <td>@ViewBag.CheckIn</td>

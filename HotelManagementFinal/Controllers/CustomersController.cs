@@ -38,6 +38,7 @@ namespace HotelManagementFinal.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
+            ViewBag.IdentificationTypeId = new SelectList(db.IdentificationTypes, "IdentificationTypeId", "IdentificationTypeName");
             return View();
         }
 
@@ -46,7 +47,7 @@ namespace HotelManagementFinal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CustomerId,CustomerName,CustomerNid,CustomerRegistrationNo,CustomerPhoneNo,CustomerAddress,CustomerPassportNo")] Customer customer)
+        public ActionResult Create([Bind(Include = "CustomerId,CustomerName,CustomerNid,CustomerRegistrationNo,CustomerPhoneNo,CustomerAddress,CustomerPassportNo,IdentificationTypeId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +66,7 @@ namespace HotelManagementFinal.Controllers
                     ViewBag.Message = "This Customer Already Exists";
                 }
             }
-
+            ViewBag.IdentificationTypeId = new SelectList(db.IdentificationTypes, "IdentificationTypeId", "IdentificationTypeName", customer.IdentificationTypeId);
             return View(customer);
         }
 
@@ -151,10 +152,5 @@ namespace HotelManagementFinal.Controllers
             base.Dispose(disposing);
         }
 
-
-        public JsonResult CheckNid(string CustomerNid)
-        {
-            return Json(!db.Customers.Any(c => c.CustomerNid == CustomerNid), JsonRequestBehavior.AllowGet);
-        }
     }
 }

@@ -32,6 +32,12 @@
         <th>
             @Html.DisplayNameFor(model => model.TotalPrice)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paying)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemainigPrice)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -54,7 +60,15 @@
         <td>
             @Html.DisplayFor(modelItem => item.Staying)
         </td>
-        <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Paying)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RemainigPrice)
+        </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CheckInId }) |
             @Html.ActionLink("Details", "Details", new { id=item.CheckInId }) |
