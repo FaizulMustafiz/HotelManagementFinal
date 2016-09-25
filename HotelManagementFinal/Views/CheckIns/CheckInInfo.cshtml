@@ -1,0 +1,57 @@
+﻿@using HotelManagementFinal.Models
+@model HotelManagementFinal.Models.CheckIn
+
+@{
+    ViewBag.Title = "CheckInInfo";
+}
+
+<h2>CheckInInfo</h2>
+
+<p>
+    @Html.ActionLink("New Check In", "Create")
+</p>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+
+<table class="table table-bordered">
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.Customer.CustomerName)</td>
+        <td>@Html.DisplayFor(model => model.Customer.CustomerName)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.Room.RoomName)</td>
+        <td>@Html.DisplayFor(model => model.Room.RoomName)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.RoomType.RoomTypeName)</td>
+        <td>@Html.DisplayFor(model => model.RoomType.RoomTypeName)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.ChekInDate)</td>
+        <td>@Html.DisplayFor(model => model.ChekInDate)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.CheckOutDate)</td>
+        <td>@Html.DisplayFor(model => model.CheckOutDate)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.Staying)</td>
+        <td>@Html.DisplayFor(model => model.Staying)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.TotalPrice)</td>
+        <td>@Html.DisplayFor(model => model.TotalPrice)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.Paying)</td>
+        <td>@Html.DisplayFor(model => model.Paying)</td>
+    </tr>
+    <tr class="success">
+        <td>@Html.DisplayNameFor(model => model.RemainigPrice)</td>
+        <td>@Html.DisplayFor(model => model.RemainigPrice)</td>
+    </tr>
+
+</table>

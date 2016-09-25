@@ -12,16 +12,15 @@
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
-@if (TempData["success"] != null)
+@*@if (TempData["success"] != null)
 {
     <div class="alert alert-success">@TempData["success"]</div>
-}
+}*@
 
 @if (TempData["already"] != null)
 {
     <div class="alert alert-danger">@TempData["already"]</div>
 }
-
 
 @using (Html.BeginForm())
 {
@@ -89,12 +88,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Paying, "Paying On CheckIn",htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Paying, "Paying On CheckIn", htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Paying, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Paying, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Paying, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Paying, "", new {@class = "text-danger"})
             </div>
         </div>
+
+        @*<div class="form-group">
+            <p class="alert alert-info">@ViewBag.TP</p>
+            <p class="alert alert-info">@ViewBag.RP</p>
+        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

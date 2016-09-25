@@ -21,6 +21,14 @@ namespace HotelManagementFinal.Controllers
             return View(checkIns.ToList());
         }
 
+        public ActionResult CheckInInfo()
+        {
+            var chekIn = db.CheckIns.OrderByDescending(r => r.CheckInId).FirstOrDefault();
+            TempData["success"] = "Check In Successfull";
+            return View(chekIn);
+            //return PartialView("~/Views/Shared/_CheckInInfo.cshtml");
+        }
+
         // GET: CheckIns/Details/5
         public ActionResult Details(int? id)
         {
@@ -76,11 +84,9 @@ namespace HotelManagementFinal.Controllers
                     decimal totalPrice = stayingConvert * price;
                     checkIn.TotalPrice = totalPrice;
                     TempData["TP"] = totalPrice;
-                    ViewBag.TotalPrice = totalPrice;
                     decimal? paying = checkIn.Paying;
                     decimal? remainingPrice = totalPrice - paying;
                     TempData["RP"] = remainingPrice;
-                    ViewBag.RemainingPrice = remainingPrice;
                     aRoom.RoomStatus = true;
                     if (checkIn.RemainigPrice == null)
                     {
@@ -96,9 +102,7 @@ namespace HotelManagementFinal.Controllers
                     }
                     db.CheckIns.Add(checkIn);
                     db.SaveChanges();
-                    TempData["success"] = "This '" + aRoom.RoomName + "' is Checked in by '" + aCustomer.CustomerName + "' from '" + checkIn.ChekInDate.ToShortDateString() + "' to '" + checkIn.CheckOutDate.ToShortDateString() + "' for " + checkIn.Staying + " days. " + "" +
-                                          " Total Price of staying is: " + checkIn.TotalPrice + " taka, Paid Ammount: "+checkIn.Paying+" taka, Due Ammount: " +checkIn.RemainigPrice+ " taka";
-                    return RedirectToAction("Create");
+                    return RedirectToAction("CheckInInfo");
                 }
 
             }
@@ -108,6 +112,8 @@ namespace HotelManagementFinal.Controllers
             ViewBag.RoomTypeId = new SelectList(db.RoomTypes, "RoomTypeId", "RoomTypeName", checkIn.RoomTypeId);
             return View(checkIn);
         }
+
+
 
         // GET: CheckIns/Edit/5
         public ActionResult Edit(int? id)
@@ -229,6 +235,102 @@ namespace HotelManagementFinal.Controllers
             return PartialView("~/Views/Shared/_FillteredRooms.cshtml");
         }
 
+
+
+        //public JsonResult SaveCheckIn(CheckIn checkIn)
+        //{
+        //    var checkInList = db.CheckIns.Where(c => c.RoomId == checkIn.RoomId && c.Room.RoomStatus == true).ToList();
+        //    if (checkInList.Count == 0)
+        //    {
+        //        Customer aCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == checkIn.CustomerId);
+        //        Room aRoom = db.Rooms.FirstOrDefault(c => c.RoomId == checkIn.RoomId);
+
+        //        DateTime checkInDate = checkIn.ChekInDate.Date;
+        //        DateTime checkOutDate = checkIn.CheckOutDate.Date;
+        //        TimeSpan staying = checkOutDate - checkInDate;
+        //        checkIn.Staying = Convert.ToString(staying.TotalDays);
+        //        var roomId = db.Rooms.FirstOrDefault(x => x.RoomId == checkIn.RoomId);
+        //        decimal price = roomId.RoomPrice;
+        //        decimal stayingConvert = Convert.ToDecimal(checkIn.Staying);
+        //        decimal totalPrice = stayingConvert * price;
+        //        checkIn.TotalPrice = totalPrice;
+        //        TempData["TP"] = totalPrice;
+        //        decimal? paying = checkIn.Paying;
+        //        decimal? remainingPrice = totalPrice - paying;
+        //        TempData["RP"] = remainingPrice;
+        //        aRoom.RoomStatus = true;
+        //        if (checkIn.RemainigPrice == null)
+        //        {
+        //            checkIn.RemainigPrice = checkIn.TotalPrice;
+        //        }
+        //        if (paying != null)
+        //        {
+        //            checkIn.RemainigPrice = remainingPrice;
+        //        }
+        //        else
+        //        {
+        //            checkIn.RemainigPrice = checkIn.TotalPrice;
+        //        }
+        //        db.CheckIns.Add(checkIn);
+        //        db.SaveChanges();
+        //        TempData["success"] = "This '" + aRoom.RoomName + "' is Checked in by '" + aCustomer.CustomerName + "' from '" + checkIn.ChekInDate.ToShortDateString() + "' to '" + checkIn.CheckOutDate.ToShortDateString() + "' for " + checkIn.Staying + " days. " + "" +
+        //                              " Total Price of staying is: " + checkIn.TotalPrice + " taka, Paid Ammount: " + checkIn.Paying + " taka, Due Ammount: " + checkIn.RemainigPrice + " taka";
+        //        return Json(true);
+        //    }
+        //    else
+        //    {
+        //        bool status = false;
+        //        foreach (var allocation in checkInList)
+        //        {
+        //            if ((checkIn.ChekInDate >= allocation.ChekInDate && checkIn.ChekInDate < allocation.CheckOutDate)
+        //                || (checkIn.CheckOutDate > allocation.ChekInDate && checkIn.CheckOutDate <= allocation.CheckOutDate) && checkIn.Room.RoomStatus == true)
+        //            {
+        //                status = true;
+        //            }
+        //        }
+        //        if (status == false)
+        //        {
+        //            Customer aCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == checkIn.CustomerId);
+        //            Room aRoom = db.Rooms.FirstOrDefault(c => c.RoomId == checkIn.RoomId);
+
+        //            DateTime checkInDate = checkIn.ChekInDate.Date;
+        //            DateTime checkOutDate = checkIn.CheckOutDate.Date;
+        //            TimeSpan staying = checkOutDate - checkInDate;
+        //            checkIn.Staying = Convert.ToString(staying.TotalDays);
+        //            var roomId = db.Rooms.FirstOrDefault(x => x.RoomId == checkIn.RoomId);
+        //            decimal price = roomId.RoomPrice;
+        //            decimal stayingConvert = Convert.ToDecimal(checkIn.Staying);
+        //            decimal totalPrice = stayingConvert * price;
+        //            checkIn.TotalPrice = totalPrice;
+        //            TempData["TP"] = totalPrice;
+        //            decimal? paying = checkIn.Paying;
+        //            decimal? remainingPrice = totalPrice - paying;
+        //            TempData["RP"] = remainingPrice;
+        //            aRoom.RoomStatus = true;
+        //            if (checkIn.RemainigPrice == null)
+        //            {
+        //                checkIn.RemainigPrice = checkIn.TotalPrice;
+        //            }
+        //            if (paying != null)
+        //            {
+        //                checkIn.RemainigPrice = remainingPrice;
+        //            }
+        //            else
+        //            {
+        //                checkIn.RemainigPrice = checkIn.TotalPrice;
+        //            }
+        //            db.CheckIns.Add(checkIn);
+        //            db.SaveChanges();
+        //            TempData["success"] = "This '" + aRoom.RoomName + "' is Checked in by '" + aCustomer.CustomerName + "' from '" + checkIn.ChekInDate.ToShortDateString() + "' to '" + checkIn.CheckOutDate.ToShortDateString() + "' for " + checkIn.Staying + " days. " + "" +
+        //                                  " Total Price of staying is: " + checkIn.TotalPrice + " taka, Paid Ammount: " + checkIn.Paying + " taka, Due Ammount: " + checkIn.RemainigPrice + " taka";
+        //            return Json(true);
+        //        }
+        //        else
+        //        {
+        //            return Json(false);
+        //        }
+        //    }
+        //}
 
 
     }

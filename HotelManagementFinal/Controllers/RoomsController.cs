@@ -209,10 +209,12 @@ namespace HotelManagementFinal.Controllers
                 ViewBag.CustomerPhone = aCheckIn.Customer.CustomerPhoneNo;
                 ViewBag.CustomerNid = aCheckIn.Customer.CustomerNid;
                 ViewBag.CutomerPassport = aCheckIn.Customer.CustomerPassportNo;
-                ViewBag.CheckIn = aCheckIn.ChekInDate;
-                ViewBag.CheckOut = aCheckIn.CheckOutDate;
+                ViewBag.CheckIn = aCheckIn.ChekInDate.ToShortDateString();
+                ViewBag.CheckOut = aCheckIn.CheckOutDate.ToShortDateString();
                 ViewBag.Stayed = aCheckIn.Staying;
                 ViewBag.TotalPrice = aCheckIn.TotalPrice;
+                ViewBag.PaidAmount = aCheckIn.Paying;
+                ViewBag.RemainingPrice = aCheckIn.RemainigPrice;
 
                 return PartialView("~/Views/Shared/_RoomInfoLoadOnCheckOut.cshtml");
             }
