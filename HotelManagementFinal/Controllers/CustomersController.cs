@@ -51,7 +51,7 @@ namespace HotelManagementFinal.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!db.Customers.Any(x => x.CustomerNid == customer.CustomerNid))
+                if (!db.Customers.Any(x => x.CustomerNid == customer.CustomerNid && x.CustomerPassportNo == customer.CustomerPassportNo))
                 {
                     customer.CustomerRegistrationNo = CreeateRegistrationNo(customer);
                     var regId = customer.CustomerName + " Registration Id: " + customer.CustomerRegistrationNo;
@@ -73,9 +73,8 @@ namespace HotelManagementFinal.Controllers
 
         public string CreeateRegistrationNo(Customer customer)
         {
-            int id = db.Customers.Count(c => c.CustomerName == customer.CustomerName) + 1;
-
-            string registrationId = customer.CustomerName + "_";
+            int id = db.Customers.Select(c => c.CustomerId == customer.CustomerId).Count() + 1;
+            string registrationId = customer.CustomerName + "-";
 
             string addZero = "";
             int len = 3 - id.ToString().Length;
@@ -83,7 +82,7 @@ namespace HotelManagementFinal.Controllers
             {
                 addZero = "0" + addZero;
             }
-            return registrationId + addZero + id + 1;
+            return registrationId + addZero + id;
         }
 
         // GET: Customers/Edit/5
