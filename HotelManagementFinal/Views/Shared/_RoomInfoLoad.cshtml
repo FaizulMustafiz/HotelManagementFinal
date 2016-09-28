@@ -43,8 +43,20 @@
                     Room Status
                 </td>
                 <td>
-                    <b>Booked</b>
+                    <b>Occupide</b>
                 </td>
+            </tr>
+            <tr>
+                <td>Occupied By</td>
+                <td>@ViewBag.CustomerName</td>
+            </tr>
+            <tr>
+                <td>Occupied From</td>
+                <td>@ViewBag.CheckIn</td>
+            </tr>
+            <tr>
+                <td>Occupied To</td>
+                <td>@ViewBag.CheckOut</td>
             </tr>
         }
         else
@@ -58,6 +70,5 @@
                 </td>
             </tr>
         }
-
     </table>
 </div>

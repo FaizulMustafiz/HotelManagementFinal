@@ -12,10 +12,10 @@
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
-@*@if (TempData["success"] != null)
+@if (TempData["Info"] != null)
 {
-    <div class="alert alert-success">@TempData["success"]</div>
-}*@
+    <div class="alert alert-success">@TempData["Info"]</div>
+}
 
 @if (TempData["already"] != null)
 {

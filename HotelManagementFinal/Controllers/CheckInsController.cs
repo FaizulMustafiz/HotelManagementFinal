@@ -64,12 +64,7 @@ namespace HotelManagementFinal.Controllers
             {
                 var checkInList = db.CheckIns.Where(x => x.RoomId == checkIn.RoomId && x.Room.RoomStatus == true).ToList();
 
-                if (checkInList.Count > 0)
-                {
-                    TempData["already"] = "This Room is Already Booked";
-                    return RedirectToAction("Create");
-                }
-                else
+                if (checkInList.Count == 0)
                 {
                     Customer aCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == checkIn.CustomerId);
                     Room aRoom = db.Rooms.FirstOrDefault(c => c.RoomId == checkIn.RoomId);
@@ -104,7 +99,57 @@ namespace HotelManagementFinal.Controllers
                     db.SaveChanges();
                     return RedirectToAction("CheckInInfo");
                 }
+                else
+                {
+                    bool status = false;
+                    foreach (var setRoom in checkInList)
+                    {
+                        if ((checkIn.ChekInDate>=setRoom.ChekInDate && checkIn.ChekInDate<setRoom.CheckOutDate)||(checkIn.CheckOutDate>setRoom.ChekInDate && checkIn.CheckOutDate<=setRoom.CheckOutDate)&& checkIn.Room.RoomStatus==true)
+                        {
+                            status = true;
+                        }
+                    }
+                    if (status==false)
+                    {
+                        Customer aCustomer = db.Customers.FirstOrDefault(c => c.CustomerId == checkIn.CustomerId);
+                        Room aRoom = db.Rooms.FirstOrDefault(c => c.RoomId == checkIn.RoomId);
 
+                        DateTime checkInDate = checkIn.ChekInDate.Date;
+                        DateTime checkOutDate = checkIn.CheckOutDate.Date;
+                        TimeSpan staying = checkOutDate - checkInDate;
+                        checkIn.Staying = Convert.ToString(staying.TotalDays);
+                        var roomId = db.Rooms.FirstOrDefault(x => x.RoomId == checkIn.RoomId);
+                        decimal price = roomId.RoomPrice;
+                        decimal stayingConvert = Convert.ToDecimal(checkIn.Staying);
+                        decimal totalPrice = stayingConvert * price;
+                        checkIn.TotalPrice = totalPrice;
+                        TempData["TP"] = totalPrice;
+                        decimal? paying = checkIn.Paying;
+                        decimal? remainingPrice = totalPrice - paying;
+                        TempData["RP"] = remainingPrice;
+                        aRoom.RoomStatus = true;
+                        if (checkIn.RemainigPrice == null)
+                        {
+                            checkIn.RemainigPrice = checkIn.TotalPrice;
+                        }
+                        if (paying != null)
+                        {
+                            checkIn.RemainigPrice = remainingPrice;
+                        }
+                        else
+                        {
+                            checkIn.RemainigPrice = checkIn.TotalPrice;
+                        }
+                        db.CheckIns.Add(checkIn);
+                        db.SaveChanges();
+                        return RedirectToAction("CheckInInfo");
+                    }
+                    else
+                    {
+                        TempData["already"] = "This Room is Already Booked";
+                        return RedirectToAction("Create");
+                    }
+                }
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "CustomerName", checkIn.CustomerId);
@@ -214,11 +259,15 @@ namespace HotelManagementFinal.Controllers
             if (roomId != null)
             {
                 Room aRoom = db.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+                var aCheckIn = db.CheckIns.Where(r => r.Room.RoomId == roomId).OrderByDescending(m => m.CheckInId).FirstOrDefault();
                 ViewBag.RoomName = aRoom.RoomName;
                 ViewBag.RoomType = aRoom.RoomType.RoomTypeName;
                 ViewBag.Price = aRoom.RoomPrice;
                 ViewBag.Description = aRoom.RoomDescription;
                 ViewBag.Status = aRoom.RoomStatus;
+                ViewBag.CheckIn = aCheckIn.ChekInDate.ToShortDateString();
+                ViewBag.CheckOut = aCheckIn.CheckOutDate.ToShortDateString();
+                ViewBag.CustomerName = aCheckIn.Customer.CustomerName;
 
                 return PartialView("~/Views/Shared/_RoomInfoLoad.cshtml");
             }
