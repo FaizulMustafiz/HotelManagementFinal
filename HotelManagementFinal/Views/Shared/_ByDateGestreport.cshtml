@@ -1,0 +1,93 @@
+﻿@model IEnumerable<HotelManagementFinal.Models.CheckIn>
+
+@{
+    ViewBag.Title = "ByDateGuestReport";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet"/>
+
+<h2 style="padding-left: 50px">By Date Guest Report</h2>
+<br/>
+<p style="padding-left: 50px">
+    @Html.ActionLink("Search Again", "ByDateGuestReport")
+</p>
+<div class="form-horizontal" style="padding-left: 50px">
+    <div class="form-group">
+        <div class="col-md-10">
+            <table class="table table-striped table-condensed">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Customer.CustomerName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Room.RoomName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomType.RoomTypeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ChekInDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CheckOutDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Staying)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TotalPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Paying)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RemainigPrice)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Room.RoomName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomType.RoomTypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ChekInDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CheckOutDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Staying)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paying)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RemainigPrice)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
